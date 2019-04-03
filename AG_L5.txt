@@ -1,0 +1,89 @@
+﻿Добавила новый класс Player:
+
+package com.geekbrains.td;
+
+public class Player {
+
+    private int score;
+    private int hp;
+    private int hpMax;
+
+    private static Player ourInstance = new Player();
+
+    public static Player getInstance() {
+        return ourInstance;
+    }
+
+    private Player() {
+        this.hpMax = 10;
+        this.hp = this.hpMax;
+        this.score = 0;
+    }
+
+    public int getHp (){
+        return hp;
+    }
+
+    public void setHp(int newHp){
+        hp = newHp;
+    }
+
+    public int getScore (){
+        return score;
+    }
+
+    public void setScore(int newScore){
+        score = newScore;
+    }
+
+}
+
+
+В Класс  добавила метод деактивации монстра
+
+    public void deactivate(){
+        this.active = false;
+    }
+
+В классе GameScreen
+
+Добавила вывод очков и здоровья игрока
+
+        font24.draw(batch, "SCORE: " + Player.getInstance().getScore(), 20, 700);
+        font24.draw(batch, "HEALTH: " + Player.getInstance().getHp(), 150, 700);
+
+В том же классе добавила в метод checkCollision проверку столкновения монстра и пули и дотижения монстром левой границы экрана:
+
+ public void checkCollisions() {
+        for (int i = 0; i < bulletEmitter.getActiveList().size(); i++) {
+            Bullet b = bulletEmitter.getActiveList().get(i);
+            if (b.getPosition().x < 0 || b.getPosition().x > 1280 ||
+                    b.getPosition().y < 0 || b.getPosition().y > 720) {
+                b.deactivate();
+                continue;
+            }
+            if (!map.isCellEmpty((int) (b.getPosition().x / 80), (int) (b.getPosition().y / 80))) {
+                b.deactivate();
+            }
+            // проверка столконовения пули и монстра. У монстра уменьшается здоровье, а пуля декативируется
+            for (int j = 0; j < monsterEmitter.getActiveList().size(); j++){
+                Monster m = monsterEmitter.getActiveList().get(j);
+                if (m.getPosition().dst(b.getPosition()) < 48 ){
+                    m.setHp(m.getHp() - 10);
+                    b.deactivate();
+                    if (m.getHp() <= 0){
+                        m.deactivate();
+                        Player.getInstance().setScore(Player.getInstance().getScore() + 1);
+                    }
+                }
+            }
+        }
+        //если монстр достигает левого края экрана, здоровье уменьшается на 1 и монтр деактивируется
+        for (int i = 0; i < monsterEmitter.getActiveList().size(); i++){
+            Monster m = monsterEmitter.getActiveList().get(i);
+            if (m.getPosition().x <= 40){
+                Player.getInstance().setHp(Player.getInstance().getHp() - 1);
+                m.deactivate();
+            }
+        }
+    }
