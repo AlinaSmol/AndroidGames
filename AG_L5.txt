@@ -1,4 +1,4 @@
-Добавила новый класс Player:
+п»їР”РѕР±Р°РІРёР»Р° РЅРѕРІС‹Р№ РєР»Р°СЃСЃ Player:
 
 package com.geekbrains.td;
 
@@ -39,20 +39,20 @@ public class Player {
 }
 
 
-В Класс  добавила метод деактивации монстра
+Р’ РљР»Р°СЃСЃ  РґРѕР±Р°РІРёР»Р° РјРµС‚РѕРґ РґРµР°РєС‚РёРІР°С†РёРё РјРѕРЅСЃС‚СЂР°
 
     public void deactivate(){
         this.active = false;
     }
 
-В классе GameScreen
+Р’ РєР»Р°СЃСЃРµ GameScreen
 
-Добавила вывод очков и здоровья игрока
+Р”РѕР±Р°РІРёР»Р° РІС‹РІРѕРґ РѕС‡РєРѕРІ Рё Р·РґРѕСЂРѕРІСЊСЏ РёРіСЂРѕРєР°
 
         font24.draw(batch, "SCORE: " + Player.getInstance().getScore(), 20, 700);
         font24.draw(batch, "HEALTH: " + Player.getInstance().getHp(), 150, 700);
 
-В том же классе добавила в метод checkCollision проверку столкновения монстра и пули и дотижения монстром левой границы экрана:
+Р’ С‚РѕРј Р¶Рµ РєР»Р°СЃСЃРµ РґРѕР±Р°РІРёР»Р° РІ РјРµС‚РѕРґ checkCollision РїСЂРѕРІРµСЂРєСѓ СЃС‚РѕР»РєРЅРѕРІРµРЅРёСЏ РјРѕРЅСЃС‚СЂР° Рё РїСѓР»Рё Рё РґРѕС‚РёР¶РµРЅРёСЏ РјРѕРЅСЃС‚СЂРѕРј Р»РµРІРѕР№ РіСЂР°РЅРёС†С‹ СЌРєСЂР°РЅР°:
 
  public void checkCollisions() {
         for (int i = 0; i < bulletEmitter.getActiveList().size(); i++) {
@@ -65,7 +65,7 @@ public class Player {
             if (!map.isCellEmpty((int) (b.getPosition().x / 80), (int) (b.getPosition().y / 80))) {
                 b.deactivate();
             }
-            // проверка столконовения пули и монстра. У монстра уменьшается здоровье, а пуля декативируется
+            // РїСЂРѕРІРµСЂРєР° СЃС‚РѕР»РєРѕРЅРѕРІРµРЅРёСЏ РїСѓР»Рё Рё РјРѕРЅСЃС‚СЂР°. РЈ РјРѕРЅСЃС‚СЂР° СѓРјРµРЅСЊС€Р°РµС‚СЃСЏ Р·РґРѕСЂРѕРІСЊРµ, Р° РїСѓР»СЏ РґРµРєР°С‚РёРІРёСЂСѓРµС‚СЃСЏ
             for (int j = 0; j < monsterEmitter.getActiveList().size(); j++){
                 Monster m = monsterEmitter.getActiveList().get(j);
                 if (m.getPosition().dst(b.getPosition()) < 48 ){
@@ -78,7 +78,7 @@ public class Player {
                 }
             }
         }
-        //если монстр достигает левого края экрана, здоровье уменьшается на 1 и монтр деактивируется
+        //РµСЃР»Рё РјРѕРЅСЃС‚СЂ РґРѕСЃС‚РёРіР°РµС‚ Р»РµРІРѕРіРѕ РєСЂР°СЏ СЌРєСЂР°РЅР°, Р·РґРѕСЂРѕРІСЊРµ СѓРјРµРЅСЊС€Р°РµС‚СЃСЏ РЅР° 1 Рё РјРѕРЅС‚СЂ РґРµР°РєС‚РёРІРёСЂСѓРµС‚СЃСЏ
         for (int i = 0; i < monsterEmitter.getActiveList().size(); i++){
             Monster m = monsterEmitter.getActiveList().get(i);
             if (m.getPosition().x <= 40){
